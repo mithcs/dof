@@ -1,0 +1,11 @@
+[tasks.b]
+run = "go build -o ./bin ./cmd/dof/main.go"
+
+[tasks.test]
+run = "go test ./internal/..."
+
+[tasks.build]
+run = ["mise run test", "go build -ldflags='-s -w' -o ./bin ./cmd/dof/main.go"]
+
+[tasks.run]
+run = ["mise run b", "./bin/main"]
