@@ -1,0 +1,36 @@
+package metadata
+
+import (
+	"encoding/json"
+	"os"
+)
+
+// read reads the metadata file
+func read(m *Metadata, filename string) error {
+	input, err := os.ReadFile(filename)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(input, m)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// write writes to the metadata file
+func write(m *Metadata, filename string) error {
+	b, err := json.Marshal(m)
+	if err != nil {
+		return err
+	}
+
+	err = os.WriteFile(filename, b, 0666)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
