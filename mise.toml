@@ -1,11 +1,12 @@
 [tasks.b]
-run = "go build -o ./bin ./cmd/dof/main.go"
+run = "go build -o ./dof ./cmd/dof/main.go"
+
+[tasks.lint]
+run = "golangci-lint run"
 
 [tasks.test]
-run = "go test ./internal/..."
+run = "go test github.com/mithcs/dof/internal/..."
 
 [tasks.build]
-run = ["mise run test", "go build -ldflags='-s -w' -o ./bin ./cmd/dof/main.go"]
-
-[tasks.run]
-run = ["mise run b", "./bin/main"]
+depends = ["lint", "test"]
+run = "go build -ldflags='-s -w' -o ./dof ./cmd/dof/main.go"
