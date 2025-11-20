@@ -1,3 +1,6 @@
+[tools]
+golangci-lint = '2.6'
+
 [tasks.b]
 run = "go build -o ./dof ./cmd/dof/main.go"
 
