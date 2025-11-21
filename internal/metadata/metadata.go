@@ -72,3 +72,33 @@ func (m *Metadata) Remove(name string) error {
 
 	return nil
 }
+
+// Get returns entry with specified name from metadata
+func (m *Metadata) Get(name string) (Entry, error) {
+	err := read(m, files.MetadataPath(filename))
+	if err != nil {
+		return Entry{}, err
+	}
+
+	return get(m, name)
+}
+
+// Update replaces existing entry with new entry (using Name) in Metadata
+func (m *Metadata) Update(new Entry) error {
+	err := read(m, files.MetadataPath(filename))
+	if err != nil {
+		return err
+	}
+
+	err = update(m, new)
+	if err != nil {
+		return err
+	}
+
+	err = write(m, files.MetadataPath(filename))
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

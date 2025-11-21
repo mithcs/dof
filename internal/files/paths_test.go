@@ -37,3 +37,14 @@ func TestMetadataFile(t *testing.T) {
 		t.Errorf("got %s, want %s", got, want)
 	}
 }
+
+func TestNameDir(t *testing.T) {
+	tmp := t.TempDir()
+
+	got := nameDir(tmp, "namedir")
+	want := filepath.Join(tmp, "dotfiles", "namedir")
+
+	if got != want {
+		t.Errorf("got %s, want %s", got, want)
+	}
+}

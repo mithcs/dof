@@ -12,6 +12,11 @@ func read(m *Metadata, filename string) error {
 		return err
 	}
 
+	// exit if file is empty
+	if len(input) == 0 {
+		return nil
+	}
+
 	err = json.Unmarshal(input, m)
 	if err != nil {
 		return err

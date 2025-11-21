@@ -18,3 +18,23 @@ func metadataFile(base string, name string) string {
 	dof := dofDir(base)
 	return filepath.Join(dof, name)
 }
+
+// nameDir returns path to name directory in base
+func nameDir(base string, name string) string {
+	dotfiles := dotfilesDir(base)
+	return filepath.Join(dotfiles, name)
+}
+
+// AbsPaths returns given absolute paths of given paths
+func AbsPaths(paths []string) ([]string, error) {
+	for i, path := range paths {
+		path, err := filepath.Abs(path)
+		if err != nil {
+			return paths, err
+		}
+
+		paths[i] = path
+	}
+
+	return paths, nil
+}

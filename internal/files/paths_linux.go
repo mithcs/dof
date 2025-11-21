@@ -17,3 +17,19 @@ func dataDir() string {
 
 	return dir
 }
+
+// configDir returns path to config directory
+func configDir() string {
+	dir := os.Getenv("XDG_CONFIG_HOME")
+	if dir == "" {
+		home := os.Getenv("HOME")
+		dir = filepath.Join(home, ".config")
+	}
+
+	return dir
+}
+
+// profileDir returns path to config directory
+func profileDir() string {
+	return os.Getenv("HOME")
+}
