@@ -1,7 +1,5 @@
 package metadata
 
-import "errors"
-
 // add adds entry to metadata
 func add(m *Metadata, e Entry) error {
 	m.Entries = append(m.Entries, e)
@@ -17,5 +15,5 @@ func remove(m *Metadata, name string) error {
 		}
 	}
 
-	return errors.New("remove: entry not found")
+	return ErrEntryNotFound
 }
