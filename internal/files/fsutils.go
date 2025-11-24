@@ -47,7 +47,10 @@ func copyFileTree(src string, dest string) error {
 		// continuing to next file)
 		if !d.Type().IsRegular() {
 			if d.IsDir() {
-				os.Mkdir(destPath, 0777)
+				err = os.Mkdir(destPath, 0777)
+				if err != nil {
+					return err
+				}
 			}
 
 			return nil
