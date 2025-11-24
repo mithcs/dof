@@ -1,6 +1,8 @@
 package files
 
 import (
+	"errors"
+	"os"
 	"path/filepath"
 	"strconv"
 	"strings"
@@ -49,11 +51,15 @@ func GeneralizePaths(paths []string) []string {
 // CopyToName copies files to dotfiles directory, starting file names from <start>
 func CopyToName(paths []string, name string, start int) error {
 	base := dataDir()
-	createNameDir(base, name)
+	err := createNameDir(base, name)
+	if err != nil && !errors.Is(err, os.ErrExist) {
+		return err
+	}
 
 	for _, path := range paths {
 		dest := filepath.Join(dotfilesDir(base), name, strconv.Itoa(start))
-		if err := copyFileTree(path, dest); err != nil {
+		err = copyFileTree(path, dest)
+		if err != nil {
 			return err
 		}
 
@@ -67,10 +73,18 @@ func CopyToName(paths []string, name string, start int) error {
 // starting file names from <start>
 func MoveAndSymlink(paths []string, name string, start int) error {
 	base := dataDir()
+	err := createNameDir(base, name)
+	if err != nil && !errors.Is(err, os.ErrExist) {
+		return err
+	}
 
 	for _, path := range paths {
 		dest := filepath.Join(dotfilesDir(base), name, strconv.Itoa(start))
-		replaceWithSymlink(path, dest)
+		err = replaceWithSymlink(path, dest)
+		if err != nil {
+			return err
+		}
+
 		start += 1
 	}
 	return nil
