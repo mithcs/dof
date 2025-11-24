@@ -32,7 +32,8 @@ func MetadataPath(name string) string {
 	return metadataFile(base, name)
 }
 
-// GeneralizePaths returns generalized paths
+// GeneralizePaths returns generalized paths, which replaces machine (and OS) specific
+// part of paths with machine (and OS) independent values
 func GeneralizePaths(paths []string) []string {
 	config := configDir()
 	profile := profileDir()

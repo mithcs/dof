@@ -25,7 +25,7 @@ func nameDir(base string, name string) string {
 	return filepath.Join(dotfiles, name)
 }
 
-// AbsPaths returns given absolute paths of given paths
+// AbsPaths returns absolute paths of given paths
 func AbsPaths(paths []string) ([]string, error) {
 	for i, path := range paths {
 		path, err := filepath.Abs(path)

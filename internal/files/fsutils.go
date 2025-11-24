@@ -40,7 +40,11 @@ func copyFileTree(src string, dest string) error {
 			return err
 		}
 
+		// compute destination path
 		destPath := filepath.Join(dest, relPath)
+
+		// if file is not regular then continue to next file (if its dir then create dir before
+		// continuing to next file)
 		if !d.Type().IsRegular() {
 			if d.IsDir() {
 				os.Mkdir(destPath, 0777)
