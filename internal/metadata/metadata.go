@@ -4,12 +4,12 @@ import (
 	"github.com/mithcs/dof/internal/files"
 )
 
-type method int
+type Method string
 
 type Entry struct {
 	Name   string   `json:"name"`
 	Paths  []string `json:"paths"`
-	Method method   `json:"method"`
+	Method Method   `json:"method"`
 }
 
 type Metadata struct {
@@ -17,8 +17,8 @@ type Metadata struct {
 }
 
 const (
-	Copy method = iota
-	Symlink
+	Copy    Method = "copy"
+	Symlink Method = "symlink"
 )
 
 var filename string = "metadata.json"
