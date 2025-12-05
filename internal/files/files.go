@@ -90,3 +90,39 @@ func MoveAndSymlink(paths []string, name string, start int) error {
 	}
 	return nil
 }
+
+// DeploySymlink deploys symlink to given paths
+func DeploySymlink(paths []string, name string) error {
+	base := dataDir()
+	nameDir := nameDir(base, name)
+
+	for i := range paths {
+		src := filepath.Join(nameDir, strconv.Itoa(i))
+		dest := paths[i]
+
+		err := createSymlink(src, dest)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+// Deploycopy copies files to given paths
+func DeployCopy(paths []string, name string) error {
+	base := dataDir()
+	nameDir := nameDir(base, name)
+
+	for i := range paths {
+		src := filepath.Join(nameDir, strconv.Itoa(i))
+		dest := paths[i]
+
+		err := copyFile(src, dest)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}

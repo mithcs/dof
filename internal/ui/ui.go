@@ -6,4 +6,5 @@ var SubCommands = []*cli.Command{
 	initCommand,
 	addCommand,
 	listCommand,
+	deployCommand,
 }
