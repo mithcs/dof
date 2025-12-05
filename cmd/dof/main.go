@@ -11,10 +11,11 @@ import (
 
 func main() {
 	cmd := &cli.Command{
-		Name:     "dof",
-		Version:  "v0.0.2",
-		Usage:    "Manage dot files easily",
-		Commands: ui.SubCommands,
+		Name:                  "dof",
+		Version:               "v0.0.2",
+		Usage:                 "Manage dot files easily",
+		EnableShellCompletion: true,
+		Commands:              ui.SubCommands,
 	}
 
 	if err := cmd.Run(context.Background(), os.Args); err != nil {
