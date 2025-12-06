@@ -28,6 +28,10 @@ func DeployHandler(ctx context.Context, cmd *cli.Command) error {
 
 // entriesFromNames returns metadata entry for each given name
 func entriesFromNames(m *md.Metadata, names []string) ([]md.Entry, error) {
+	if names[0] == "all" {
+		return m.All()
+	}
+
 	entries := []md.Entry{}
 
 	for _, n := range names {
