@@ -12,7 +12,7 @@ import (
 // ListHandler is handler for list subcommand
 func ListHandler(ctx context.Context, cmd *cli.Command) error {
 	m := &md.Metadata{}
-	entries, err := m.List()
+	entries, err := m.All()
 	if err != nil {
 		return err
 	}

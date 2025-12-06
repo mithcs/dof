@@ -103,8 +103,8 @@ func (m *Metadata) Update(new Entry) error {
 	return nil
 }
 
-// List returns all the entries
-func (m *Metadata) List() ([]Entry, error) {
+// All returns all the entries
+func (m *Metadata) All() ([]Entry, error) {
 	err := read(m, files.MetadataPath(filename))
 	if err != nil {
 		return m.Entries, err
