@@ -1,6 +1,8 @@
 package ui
 
 import (
+	"context"
+
 	h "github.com/mithcs/dof/internal/handlers"
 	"github.com/urfave/cli/v3"
 )
@@ -33,5 +35,11 @@ var addCommand = &cli.Command{
 			Max:  -1,
 		},
 	},
-	Action: h.AddHandler,
+	Action:        h.AddHandler,
+	ShellComplete: addShellCompletion,
+}
+
+func addShellCompletion(ctx context.Context, c *cli.Command) {
+	// do not provide any completion for add subcommand
+	// let the shell handle it
 }
