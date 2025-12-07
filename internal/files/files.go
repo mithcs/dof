@@ -126,3 +126,21 @@ func DeployCopy(paths []string, name string) error {
 
 	return nil
 }
+
+// MoveFromName moves files from name to <paths> based on <indices>
+func MoveFromName(paths []string, indices []int, name string) error {
+	base := dataDir()
+	nameDir := nameDir(base, name)
+
+	for i := range paths {
+		src := filepath.Join(nameDir, strconv.Itoa(indices[i]))
+		dest := paths[i]
+
+		err := moveFile(src, dest)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}

@@ -1,6 +1,7 @@
 package files
 
 import (
+	"errors"
 	"io/fs"
 	"os"
 	"path/filepath"
@@ -83,4 +84,25 @@ func copyFile(src string, dest string) error {
 // createSymlink creates symlink of source at destination
 func createSymlink(src string, dest string) error {
 	return os.Symlink(src, dest)
+}
+
+// moveFile moves file from source to destination
+func moveFile(src string, dest string) error {
+	// ensure dest does not exist
+	err := os.RemoveAll(dest)
+	if err != nil && !errors.Is(err, os.ErrNotExist) {
+		return err
+	}
+
+	err = copyFile(src, dest)
+	if err != nil {
+		return err
+	}
+
+	err = os.RemoveAll(src)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
