@@ -9,4 +9,4 @@ Features:
 - Static and self-contained
 
 NOTE: dof does not interact with VCS (git, ...), you have to manage
-your it yourself.
+it yourself.
