@@ -1,7 +1,12 @@
 package ui
 
 import (
+	"context"
+	"fmt"
+
+	"github.com/mithcs/dof/internal/files"
 	h "github.com/mithcs/dof/internal/handlers"
+	md "github.com/mithcs/dof/internal/metadata"
 	"github.com/urfave/cli/v3"
 )
 
@@ -25,5 +30,22 @@ var removeCommand = &cli.Command{
 			Max:  -1,
 		},
 	},
-	Action: h.RemoveHandler,
+	Action:        h.RemoveHandler,
+	ShellComplete: removeShellCompletion,
+}
+
+func removeShellCompletion(ctx context.Context, c *cli.Command) {
+	m := &md.Metadata{}
+	entries, err := m.All()
+	if err != nil {
+		return
+	}
+
+	for _, e := range entries {
+		e.Paths = files.ResolvePaths(e.Paths)
+
+		for _, p := range e.Paths {
+			fmt.Printf("%s:%s\n", p, e.Name)
+		}
+	}
 }
