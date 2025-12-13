@@ -7,7 +7,7 @@ import (
 )
 
 // read reads the config file
-func read(c *Config, filename string) error {
+func (c *Config) read(filename string) error {
 	input, err := os.ReadFile(filename)
 	if err != nil {
 		return err
@@ -27,7 +27,7 @@ func read(c *Config, filename string) error {
 }
 
 // write writes to the config file
-func write(c *Config, filename string) error {
+func (c *Config) write(filename string) error {
 	b, err := toml.Marshal(c)
 	if err != nil {
 		return err

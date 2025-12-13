@@ -21,11 +21,11 @@ const (
 	Symlink Method = "symlink"
 )
 
-var filename string = "metadata.json"
+var filePath string = files.MetadataPath("metadata.json")
 
 // Create creates the metadata file
 func (m *Metadata) Create() error {
-	err := files.CreateMetadataFile(filename)
+	err := files.CreateMetadataFile(filePath)
 	if err != nil {
 		return err
 	}
@@ -35,17 +35,17 @@ func (m *Metadata) Create() error {
 
 // Add adds entry to metadata
 func (m *Metadata) Add(e Entry) error {
-	err := read(m, files.MetadataPath(filename))
+	err := m.read(filePath)
 	if err != nil {
 		return err
 	}
 
-	err = add(m, e)
+	err = m.add(e)
 	if err != nil {
 		return err
 	}
 
-	err = write(m, files.MetadataPath(filename))
+	err = m.write(filePath)
 	if err != nil {
 		return err
 	}
@@ -55,17 +55,17 @@ func (m *Metadata) Add(e Entry) error {
 
 // Remove removes entry from metadata
 func (m *Metadata) Remove(name string) error {
-	err := read(m, files.MetadataPath(filename))
+	err := m.read(filePath)
 	if err != nil {
 		return err
 	}
 
-	err = remove(m, name)
+	err = m.remove(name)
 	if err != nil {
 		return err
 	}
 
-	err = write(m, files.MetadataPath(filename))
+	err = m.write(filePath)
 	if err != nil {
 		return err
 	}
@@ -75,27 +75,27 @@ func (m *Metadata) Remove(name string) error {
 
 // Get returns entry with specified name from metadata
 func (m *Metadata) Get(name string) (Entry, error) {
-	err := read(m, files.MetadataPath(filename))
+	err := m.read(filePath)
 	if err != nil {
 		return Entry{}, err
 	}
 
-	return get(m, name)
+	return m.get(name)
 }
 
 // Update replaces existing entry with new entry (using Name) in Metadata
 func (m *Metadata) Update(new Entry) error {
-	err := read(m, files.MetadataPath(filename))
+	err := m.read(filePath)
 	if err != nil {
 		return err
 	}
 
-	err = update(m, new)
+	err = m.update(new)
 	if err != nil {
 		return err
 	}
 
-	err = write(m, files.MetadataPath(filename))
+	err = m.write(filePath)
 	if err != nil {
 		return err
 	}
@@ -105,7 +105,7 @@ func (m *Metadata) Update(new Entry) error {
 
 // All returns all the entries
 func (m *Metadata) All() ([]Entry, error) {
-	err := read(m, files.MetadataPath(filename))
+	err := m.read(filePath)
 	if err != nil {
 		return m.Entries, err
 	}

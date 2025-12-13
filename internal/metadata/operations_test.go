@@ -22,7 +22,7 @@ func TestAdd(t *testing.T) {
 	}
 
 	e := Entry{Name: "test3", Paths: []string{"a", "small", "path"}, Method: Copy}
-	if err := add(&got, e); err != nil {
+	if err := got.add(e); err != nil {
 		t.Fatalf("got %s, want nil", err)
 	}
 
@@ -45,7 +45,7 @@ func TestRemove(t *testing.T) {
 		},
 	}
 
-	if err := remove(&got, "test1"); err != nil {
+	if err := got.remove("test1"); err != nil {
 		t.Fatalf("got %s, want nil", err)
 	}
 

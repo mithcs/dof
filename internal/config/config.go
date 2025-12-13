@@ -6,7 +6,7 @@ type Config struct {
 	Method string `toml:"method"`
 }
 
-var filename string = "config.toml"
+var filePath string = files.ConfigFile("config.toml")
 
 // Create creates configuration file
 func (c *Config) Create() error {
@@ -18,14 +18,14 @@ func (c *Config) Create() error {
 		return err
 	}
 
-	err = files.CreateConfigFile(filename)
+	err = files.CreateConfigFile(filePath)
 	if err != nil {
 		return err
 	}
 
 	c.setDefaults()
 
-	err = write(c, files.ConfigFile(filename))
+	err = c.write(filePath)
 	if err != nil {
 		return err
 	}
@@ -35,7 +35,7 @@ func (c *Config) Create() error {
 
 // DefaultMethod returns method from config
 func (c *Config) DefaultMethod() (string, error) {
-	err := read(c, files.ConfigFile(filename))
+	err := c.read(filePath)
 	if err != nil {
 		return "", err
 	}

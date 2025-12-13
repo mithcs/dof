@@ -6,7 +6,7 @@ import (
 )
 
 // read reads the metadata file
-func read(m *Metadata, filename string) error {
+func (m *Metadata) read(filename string) error {
 	input, err := os.ReadFile(filename)
 	if err != nil {
 		return err
@@ -26,7 +26,7 @@ func read(m *Metadata, filename string) error {
 }
 
 // write writes to the metadata file
-func write(m *Metadata, filename string) error {
+func (m *Metadata) write(filename string) error {
 	b, err := json.Marshal(m)
 	if err != nil {
 		return err
