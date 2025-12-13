@@ -21,3 +21,13 @@ func createMetadataFile(base string, name string) error {
 func createNameDir(base string, name string) error {
 	return os.Mkdir(nameDir(base, name), 0777)
 }
+
+// createDofConfigDir creates config directory in base
+func createDofConfigDir(base string, name string) error {
+	return os.Mkdir(dofConfigDir(base), 0777)
+}
+
+// createDofConfigFile creates config file in base
+func createDofConfigFile(base string, name string) error {
+	return os.WriteFile(dofConfigFile(base, name), []byte{}, 0666)
+}

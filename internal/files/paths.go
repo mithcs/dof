@@ -28,6 +28,17 @@ func nameDir(base string, name string) string {
 	return filepath.Join(dotfiles, name)
 }
 
+// dofConfigDir returns path to dof configuration directory
+func dofConfigDir(base string) string {
+	return filepath.Join(base, "dof")
+}
+
+// dofConfigFile returns path to dof configuration file
+func dofConfigFile(base string, name string) string {
+	config := dofConfigDir(base)
+	return filepath.Join(config, name)
+}
+
 // AbsPaths returns absolute paths of given paths
 func AbsPaths(paths []string) ([]string, error) {
 	for i, path := range paths {

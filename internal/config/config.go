@@ -1,8 +1,49 @@
 package config
 
-type Config struct{}
+import "github.com/mithcs/dof/internal/files"
 
-// Create creates the config file
+type Config struct {
+	Method string `toml:"method"`
+}
+
+var filename string = "config.toml"
+
+// Create creates configuration file
 func (c *Config) Create() error {
+	// name of config dir
+	dir := "dof"
+
+	err := files.CreateConfigDirectory(dir)
+	if err != nil {
+		return err
+	}
+
+	err = files.CreateConfigFile(filename)
+	if err != nil {
+		return err
+	}
+
+	c.setDefaults()
+
+	err = write(c, files.ConfigFile(filename))
+	if err != nil {
+		return err
+	}
+
 	return nil
+}
+
+// DefaultMethod returns method from config
+func (c *Config) DefaultMethod() (string, error) {
+	err := read(c, files.ConfigFile(filename))
+	if err != nil {
+		return "", err
+	}
+
+	return c.Method, nil
+}
+
+// setDefaults sets default config values
+func (c *Config) setDefaults() {
+	c.Method = "copy"
 }

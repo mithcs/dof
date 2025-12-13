@@ -144,3 +144,21 @@ func MoveFromName(paths []string, indices []int, name string) error {
 
 	return nil
 }
+
+// CreateConfigDirectory creates config directory
+func CreateConfigDirectory(name string) error {
+	base := configDir()
+	return createDofConfigDir(base, name)
+}
+
+// CreateConfigFile creates config file
+func CreateConfigFile(name string) error {
+	base := configDir()
+	return createDofConfigFile(base, name)
+}
+
+// ConfigFile returns path to config file
+func ConfigFile(name string) string {
+	base := configDir()
+	return dofConfigFile(base, name)
+}
