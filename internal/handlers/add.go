@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 
+	"github.com/mithcs/dof/internal/config"
 	"github.com/mithcs/dof/internal/files"
 	md "github.com/mithcs/dof/internal/metadata"
 	"github.com/urfave/cli/v3"
@@ -23,8 +24,13 @@ func AddHandler(ctx context.Context, cmd *cli.Command) error {
 		return err
 	}
 
+	fallback, err := methodFromConfig()
+	if err != nil {
+		return err
+	}
+	method := selectMethod(entry.Method, fallback, cmd)
+
 	pathsCount := len(entry.Paths)
-	method := selectMethod(entry.Method, cmd)
 	err = addFile(method, paths, name, pathsCount)
 	if err != nil {
 		return err
@@ -44,9 +50,10 @@ func AddHandler(ctx context.Context, cmd *cli.Command) error {
 	return nil
 }
 
-// selectMethod selects method to use. It uses given method if set, otherwise
-// checks flags to determine. If no flags are set either, default method is returned
-func selectMethod(method md.Method, cmd *cli.Command) md.Method {
+// selectMethod selects method to use. It returns given method if set, otherwise
+// checks command line flags to determine. If no flags are set either, fallback
+// method is returned
+func selectMethod(method md.Method, fallback md.Method, cmd *cli.Command) md.Method {
 	if method != "" {
 		return method
 	}
@@ -57,11 +64,11 @@ func selectMethod(method md.Method, cmd *cli.Command) md.Method {
 	case cmd.Bool("symlink"):
 		return md.Symlink
 	default:
-		// select default from config
-		return md.Copy
+		return fallback
 	}
 }
 
+// addFile adds file based on method
 func addFile(method md.Method, paths []string, name string, pathCount int) error {
 	if method == md.Symlink {
 		return files.MoveAndSymlink(paths, name, pathCount)
@@ -77,4 +84,19 @@ func saveEntry(m *md.Metadata, pathsCount int, e md.Entry) error {
 	} else {
 		return m.Update(e)
 	}
+}
+
+// methodFromConfig returns method from config
+func methodFromConfig() (md.Method, error) {
+	c := &config.Config{}
+	method, err := c.DefaultMethod()
+	if err != nil {
+		return md.Copy, err
+	}
+
+	if method == "symlink" {
+		return md.Symlink, err
+	}
+
+	return md.Copy, err
 }
