@@ -48,3 +48,25 @@ func TestNameDir(t *testing.T) {
 		t.Errorf("got %s, want %s", got, want)
 	}
 }
+
+func TestDofConfigDir(t *testing.T) {
+	tmp := t.TempDir()
+
+	got := dofConfigDir(tmp)
+	want := filepath.Join(tmp, "dof")
+
+	if got != want {
+		t.Errorf("got %s, want %s", got, want)
+	}
+}
+
+func TestDofConfigFile(t *testing.T) {
+	tmp := t.TempDir()
+
+	got := dofConfigFile(tmp, "config.toml")
+	want := filepath.Join(tmp, "dof", "config.toml")
+
+	if got != want {
+		t.Errorf("got %s, want %s", got, want)
+	}
+}
