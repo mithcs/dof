@@ -2,7 +2,6 @@ package files
 
 import (
 	"path/filepath"
-	"strings"
 )
 
 // dotfilesDir returns path to dotfiles dir in base
@@ -37,34 +36,4 @@ func dofConfigDir(base string) string {
 func dofConfigFile(base string, name string) string {
 	config := dofConfigDir(base)
 	return filepath.Join(config, name)
-}
-
-// AbsPaths returns absolute paths of given paths
-func AbsPaths(paths []string) ([]string, error) {
-	for i, path := range paths {
-		path, err := filepath.Abs(path)
-		if err != nil {
-			return paths, err
-		}
-
-		paths[i] = path
-	}
-
-	return paths, nil
-}
-
-// ResolvePaths returns resolved paths
-func ResolvePaths(paths []string) []string {
-	config := configDir()
-	profile := profileDir()
-
-	for i, path := range paths {
-		path = strings.Replace(path, "{CONFIG}", config, 1)
-		path = strings.Replace(path, "{PROFILE}", profile, 1)
-
-		path = strings.ReplaceAll(path, "{.}", string(filepath.Separator))
-		paths[i] = path
-	}
-
-	return paths
 }

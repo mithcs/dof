@@ -81,11 +81,6 @@ func copyFile(src string, dest string) error {
 	return nil
 }
 
-// createSymlink creates symlink of source at destination
-func createSymlink(src string, dest string) error {
-	return os.Symlink(src, dest)
-}
-
 // moveFile moves file from source to destination
 func moveFile(src string, dest string) error {
 	// ensure dest does not exist

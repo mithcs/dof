@@ -26,10 +26,28 @@ func CreateMetadataFile(name string) error {
 	return createMetadataFile(base, name)
 }
 
+// CreateConfigDirectory creates config directory
+func CreateConfigDirectory(name string) error {
+	base := configDir()
+	return createDofConfigDir(base, name)
+}
+
+// CreateConfigFile creates config file
+func CreateConfigFile(name string) error {
+	base := configDir()
+	return createDofConfigFile(base, name)
+}
+
 // MetadataPath returns path to metadata file
 func MetadataPath(name string) string {
 	base := dataDir()
 	return metadataFile(base, name)
+}
+
+// ConfigFile returns path to config file
+func ConfigFile(name string) string {
+	base := configDir()
+	return dofConfigFile(base, name)
 }
 
 // GeneralizePaths returns generalized paths, which replaces machine (and OS) specific
@@ -100,7 +118,7 @@ func DeploySymlink(paths []string, name string) error {
 		src := filepath.Join(nameDir, strconv.Itoa(i))
 		dest := paths[i]
 
-		err := createSymlink(src, dest)
+		err := os.Symlink(src, dest)
 		if err != nil {
 			return err
 		}
@@ -145,20 +163,32 @@ func MoveFromName(paths []string, indices []int, name string) error {
 	return nil
 }
 
-// CreateConfigDirectory creates config directory
-func CreateConfigDirectory(name string) error {
-	base := configDir()
-	return createDofConfigDir(base, name)
+// AbsPaths returns absolute paths of given paths
+func AbsPaths(paths []string) ([]string, error) {
+	for i, path := range paths {
+		path, err := filepath.Abs(path)
+		if err != nil {
+			return paths, err
+		}
+
+		paths[i] = path
+	}
+
+	return paths, nil
 }
 
-// CreateConfigFile creates config file
-func CreateConfigFile(name string) error {
-	base := configDir()
-	return createDofConfigFile(base, name)
-}
+// ResolvePaths returns resolved paths
+func ResolvePaths(paths []string) []string {
+	config := configDir()
+	profile := profileDir()
 
-// ConfigFile returns path to config file
-func ConfigFile(name string) string {
-	base := configDir()
-	return dofConfigFile(base, name)
+	for i, path := range paths {
+		path = strings.Replace(path, "{CONFIG}", config, 1)
+		path = strings.Replace(path, "{PROFILE}", profile, 1)
+
+		path = strings.ReplaceAll(path, "{.}", string(filepath.Separator))
+		paths[i] = path
+	}
+
+	return paths
 }
