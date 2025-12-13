@@ -6,14 +6,14 @@ import (
 )
 
 func TestAdd(t *testing.T) {
-	got := Metadata{
+	got := &Metadata{
 		Entries: []Entry{
 			{Name: "test1", Paths: []string{"a", "long", "path"}, Method: Copy},
 			{Name: "test2", Paths: []string{"a", "really", "long", "path"}, Method: Symlink},
 		},
 	}
 
-	want := Metadata{
+	want := &Metadata{
 		Entries: []Entry{
 			{Name: "test1", Paths: []string{"a", "long", "path"}, Method: Copy},
 			{Name: "test2", Paths: []string{"a", "really", "long", "path"}, Method: Symlink},
@@ -32,14 +32,14 @@ func TestAdd(t *testing.T) {
 }
 
 func TestRemove(t *testing.T) {
-	got := Metadata{
+	got := &Metadata{
 		Entries: []Entry{
 			{Name: "test1", Paths: []string{"a", "long", "path"}, Method: Copy},
 			{Name: "test2", Paths: []string{"a", "really", "long", "path"}, Method: Symlink},
 		},
 	}
 
-	want := Metadata{
+	want := &Metadata{
 		Entries: []Entry{
 			{Name: "test2", Paths: []string{"a", "really", "long", "path"}, Method: Symlink},
 		},
@@ -47,6 +47,52 @@ func TestRemove(t *testing.T) {
 
 	if err := got.remove("test1"); err != nil {
 		t.Fatalf("got %s, want nil", err)
+	}
+
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %v, want %v", got, want)
+	}
+}
+
+func TestGet(t *testing.T) {
+	m := &Metadata{
+		Entries: []Entry{
+			{Name: "test1", Paths: []string{"a", "long", "path"}, Method: Copy},
+			{Name: "test2", Paths: []string{"a", "really", "long", "path"}, Method: Symlink},
+		},
+	}
+
+	got, err := m.get("test1")
+	if err != nil {
+		t.Fatalf("got %s, want nil", err)
+	}
+
+	want := Entry{Name: "test1", Paths: []string{"a", "long", "path"}, Method: Copy}
+
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %v, want %v", got, want)
+	}
+}
+
+func TestUpdate(t *testing.T) {
+	got := &Metadata{
+		Entries: []Entry{
+			{Name: "test1", Paths: []string{"a", "long", "path"}, Method: Copy},
+			{Name: "test2", Paths: []string{"a", "really", "long", "path"}, Method: Symlink},
+		},
+	}
+
+	updated := Entry{Name: "test1", Paths: []string{"new", "path"}, Method: Symlink}
+	err := got.update(updated)
+	if err != nil {
+		t.Fatalf("got %s, want nil", err)
+	}
+
+	want := &Metadata{
+		Entries: []Entry{
+			updated,
+			{Name: "test2", Paths: []string{"a", "really", "long", "path"}, Method: Symlink},
+		},
 	}
 
 	if !reflect.DeepEqual(got, want) {
