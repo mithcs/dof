@@ -21,11 +21,12 @@ const (
 	Symlink Method = "symlink"
 )
 
-var filePath string = files.MetadataPath("metadata.json")
+var fileName string = "metadata.json"
+var filePath string = files.MetadataPath(fileName)
 
 // Create creates the metadata file
 func (m *Metadata) Create() error {
-	err := files.CreateMetadataFile(filePath)
+	err := files.CreateMetadataFile(fileName)
 	if err != nil {
 		return err
 	}

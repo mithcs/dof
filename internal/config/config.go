@@ -6,7 +6,8 @@ type Config struct {
 	Method string `toml:"method"`
 }
 
-var filePath string = files.ConfigFile("config.toml")
+var fileName string = "config.toml"
+var filePath string = files.ConfigFile(fileName)
 
 // Create creates configuration file
 func (c *Config) Create() error {
@@ -18,7 +19,7 @@ func (c *Config) Create() error {
 		return err
 	}
 
-	err = files.CreateConfigFile(filePath)
+	err = files.CreateConfigFile(fileName)
 	if err != nil {
 		return err
 	}
