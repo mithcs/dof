@@ -12,7 +12,7 @@ import (
 func main() {
 	cmd := &cli.Command{
 		Name:                  "dof",
-		Version:               "v0.0.2",
+		Version:               "v0.1.0",
 		Usage:                 "Manage dot files easily",
 		EnableShellCompletion: true,
 		Commands:              ui.SubCommands,
