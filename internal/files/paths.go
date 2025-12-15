@@ -27,12 +27,12 @@ func nameDir(base string, name string) string {
 	return filepath.Join(dotfiles, name)
 }
 
-// dofConfigDir returns path to dof configuration directory
+// dofConfigDir returns path to dof config dir in base
 func dofConfigDir(base string) string {
 	return filepath.Join(base, "dof")
 }
 
-// dofConfigFile returns path to dof configuration file
+// dofConfigFile returns path to dof config file (with name) in base
 func dofConfigFile(base string, name string) string {
 	config := dofConfigDir(base)
 	return filepath.Join(config, name)

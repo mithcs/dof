@@ -6,9 +6,9 @@ import (
 	"github.com/BurntSushi/toml"
 )
 
-// read reads the config file
-func (c *Config) read(filename string) error {
-	input, err := os.ReadFile(filename)
+// read reads the config file from given filepath
+func (c *Config) read(filepath string) error {
+	input, err := os.ReadFile(filepath)
 	if err != nil {
 		return err
 	}
@@ -26,14 +26,14 @@ func (c *Config) read(filename string) error {
 	return nil
 }
 
-// write writes to the config file
-func (c *Config) write(filename string) error {
+// write writes to the config file at given filepath
+func (c *Config) write(filepath string) error {
 	b, err := toml.Marshal(c)
 	if err != nil {
 		return err
 	}
 
-	err = os.WriteFile(filename, b, 0666)
+	err = os.WriteFile(filepath, b, 0666)
 	if err != nil {
 		return err
 	}

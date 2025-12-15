@@ -9,11 +9,9 @@ type Config struct {
 var fileName string = "config.toml"
 var filePath string = files.ConfigFile(fileName)
 
-// Create creates configuration file
+// Create creates configuration file with default values
 func (c *Config) Create() error {
-	// name of config dir
 	dir := "dof"
-
 	err := files.CreateConfigDirectory(dir)
 	if err != nil {
 		return err

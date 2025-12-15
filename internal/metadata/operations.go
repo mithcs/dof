@@ -1,12 +1,12 @@
 package metadata
 
-// add adds entry to metadata
+// add appends given entry to metadata
 func (m *Metadata) add(e Entry) error {
 	m.Entries = append(m.Entries, e)
 	return nil
 }
 
-// remove removes entry from metadata
+// remove removes given entry from metadata
 func (m *Metadata) remove(name string) error {
 	for i, e := range m.Entries {
 		if e.Name == name {
@@ -29,11 +29,11 @@ func (m *Metadata) get(name string) (Entry, error) {
 	return Entry{}, ErrEntryNotFound
 }
 
-// update replaces existing entry with new entry (using name)
-func (m *Metadata) update(new Entry) error {
+// update replaces existing entry with updated entry
+func (m *Metadata) update(updated Entry) error {
 	for i := range m.Entries {
-		if m.Entries[i].Name == new.Name {
-			m.Entries[i] = new
+		if m.Entries[i].Name == updated.Name {
+			m.Entries[i] = updated
 			return nil
 		}
 	}

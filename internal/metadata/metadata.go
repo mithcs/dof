@@ -4,14 +4,17 @@ import (
 	"github.com/mithcs/dof/internal/files"
 )
 
+// Method refers to method to use - Copy or Symlink
 type Method string
 
+// Entry contains group of paths, method and a name for entry
 type Entry struct {
 	Name   string   `json:"name"`
 	Paths  []string `json:"paths"`
 	Method Method   `json:"method"`
 }
 
+// Metadata is layout of metadata file
 type Metadata struct {
 	Entries []Entry `json:"entries"`
 }
@@ -34,7 +37,7 @@ func (m *Metadata) Create() error {
 	return nil
 }
 
-// Add adds entry to metadata
+// Add adds given entry to metadata
 func (m *Metadata) Add(e Entry) error {
 	err := m.read(filePath)
 	if err != nil {
@@ -54,7 +57,7 @@ func (m *Metadata) Add(e Entry) error {
 	return nil
 }
 
-// Remove removes entry from metadata
+// Remove removes entry (with given name) from metadata
 func (m *Metadata) Remove(name string) error {
 	err := m.read(filePath)
 	if err != nil {
@@ -74,7 +77,7 @@ func (m *Metadata) Remove(name string) error {
 	return nil
 }
 
-// Get returns entry with specified name from metadata
+// Get returns entry (with given name) from metadata
 func (m *Metadata) Get(name string) (Entry, error) {
 	err := m.read(filePath)
 	if err != nil {
@@ -84,7 +87,7 @@ func (m *Metadata) Get(name string) (Entry, error) {
 	return m.get(name)
 }
 
-// Update replaces existing entry with new entry (using Name) in Metadata
+// Update replaces existing entry with updated entry in metadata
 func (m *Metadata) Update(updated Entry) error {
 	if len(updated.Paths) < 1 {
 		return m.Remove(updated.Name)
@@ -108,7 +111,7 @@ func (m *Metadata) Update(updated Entry) error {
 	return nil
 }
 
-// All returns all the entries
+// All returns all the entries from metadata
 func (m *Metadata) All() ([]Entry, error) {
 	err := m.read(filePath)
 	if err != nil {

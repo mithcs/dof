@@ -20,31 +20,31 @@ func CreateDofDir() error {
 	return createDofDir(base)
 }
 
-// CreateMetadataFile creates metadata file
+// CreateMetadataFile creates metadata file of given name
 func CreateMetadataFile(name string) error {
 	base := dataDir()
 	return createMetadataFile(base, name)
 }
 
-// CreateConfigDirectory creates config directory
-func CreateConfigDirectory(name string) error {
+// CreateConfigDirectory creates config directory of given name
+func CreateConfigDirectory() error {
 	base := configDir()
-	return createDofConfigDir(base, name)
+	return createDofConfigDir(base)
 }
 
-// CreateConfigFile creates config file
+// CreateConfigFile creates config file of given name
 func CreateConfigFile(name string) error {
 	base := configDir()
 	return createDofConfigFile(base, name)
 }
 
-// MetadataPath returns path to metadata file
+// MetadataPath returns path to metadata file (with given name)
 func MetadataPath(name string) string {
 	base := dataDir()
 	return metadataFile(base, name)
 }
 
-// ConfigFile returns path to config file
+// ConfigFile returns path to config file (with given name)
 func ConfigFile(name string) string {
 	base := configDir()
 	return dofConfigFile(base, name)
@@ -127,7 +127,7 @@ func DeploySymlink(paths []string, name string) error {
 	return nil
 }
 
-// Deploycopy copies files to given paths
+// DeployCopy copies files to given paths
 func DeployCopy(paths []string, name string) error {
 	base := dataDir()
 	nameDir := nameDir(base, name)
