@@ -85,13 +85,17 @@ func (m *Metadata) Get(name string) (Entry, error) {
 }
 
 // Update replaces existing entry with new entry (using Name) in Metadata
-func (m *Metadata) Update(new Entry) error {
+func (m *Metadata) Update(updated Entry) error {
+	if len(updated.Paths) < 1 {
+		return m.Remove(updated.Name)
+	}
+
 	err := m.read(filePath)
 	if err != nil {
 		return err
 	}
 
-	err = m.update(new)
+	err = m.update(updated)
 	if err != nil {
 		return err
 	}
