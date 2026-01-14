@@ -11,8 +11,7 @@ var filePath string = files.ConfigFile(fileName)
 
 // Create creates configuration file with default values
 func (c *Config) Create() error {
-	dir := "dof"
-	err := files.CreateConfigDirectory(dir)
+	err := files.CreateConfigDirectory()
 	if err != nil {
 		return err
 	}
