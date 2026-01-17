@@ -24,12 +24,14 @@ func ListHandler(ctx context.Context, cmd *cli.Command) error {
 
 // printEntries prints the entries
 func printEntries(entries []md.Entry) {
+	fmt.Println()
+
 	for _, e := range entries {
 		fmt.Printf("%s (%s):\n", e.Name, e.Method)
 
 		e.Paths = files.ResolvePaths(e.Paths)
 		for _, p := range e.Paths {
-			fmt.Println(p)
+			fmt.Println("-", p)
 		}
 
 		fmt.Println()
