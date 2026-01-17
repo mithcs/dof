@@ -1,0 +1,8 @@
+TODO
+
+Change entry filename format
+=====================================================================
+
+For convenience, files are renamed to the index of entry (in name).
+Update it to - {index}-{filename}.
+
